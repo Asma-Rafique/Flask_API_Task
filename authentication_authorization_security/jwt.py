@@ -2,9 +2,9 @@ from datetime import datetime, timedelta
 from typing import Union
 from jose import JWTError, jwt
 
-SECRET_KEY = ""
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
+secret_key = ""
+algo = "HS256"
+access_token_expire_date = 30
 
 # def verify_password(plain_password, hashed_password):
 #     return pwd_context.verify(plain_password, hashed_password)
@@ -17,13 +17,13 @@ def create_access_token(data: dict, expires_delta: Union[timedelta, None] = None
     else:
         expire = datetime.utcnow() + timedelta(minutes=15)
     to_encode.update({"exp": expire})
-    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    encoded_jwt = jwt.encode(to_encode, secret_key, algorithm=algo)
     return encoded_jwt
 
 
 def decode_access_token(token: str):
     try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        payload = jwt.decode(token, secret_key, algorithms=[algo])
         email: str = payload.get("sub")
         if email is None:
             return None

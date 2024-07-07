@@ -5,7 +5,7 @@ from config.db import conn
 from schemas.user import usersEntity, userEntity
 from bson import ObjectId
 from authentication_authorization_security.security import verify_password, hash_password
-from authentication_authorization_security.jwt import create_access_token, timedelta, ACCESS_TOKEN_EXPIRE_MINUTES
+from authentication_authorization_security.jwt import create_access_token, timedelta, access_token_expire_date
 user = APIRouter()
 
 
@@ -46,7 +46,7 @@ async def login(user: UserLogin):
             detail="Invalid email or password",
             headers={"WWW-Authenticate": "Bearer"},
         )
-    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token_expires = timedelta(minutes=access_token_expire_date)
     access_token = create_access_token(
         data={"sub": db_user["email"]}, expires_delta=access_token_expires
     )
